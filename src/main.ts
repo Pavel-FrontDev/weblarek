@@ -5,7 +5,7 @@ import { Basket } from "./components/Models/BasketModel";
 import { Buyer } from "./components/Models/BuyerModel";
 import { apiProducts } from "./utils/data";
 import { Api } from "./components/base/Api";
-import { AppApi } from "./components/base/appApi";
+import { AppApi } from "./components/Models/AppApi";
 import { API_URL } from "./utils/constants";
 import { IApi } from "./types";
 //нужен для конструкторов
@@ -18,7 +18,11 @@ const catalog = new Catalog(events);
 catalog.setItems(apiProducts.items);
 console.log("Все товары каталога:", catalog.getItems());
 console.log('Товар с id="1":', catalog.getItem("1"));
-
+const selectedItem = catalog.getItems()[0];
+catalog.setSelectedItem(selectedItem);
+console.log('выбранный товар сохранен', selectedItem.title);
+const selected = catalog.getSelectedItem();
+console.log('получаем выбранный товар', selected);
 //проверка корзины
 
 const basket = new Basket(events);
@@ -75,7 +79,7 @@ const appApi = new AppApi(api);
 
 appApi.getProduct()
   .then((response) => {
-    catalog.setItems(response.item);
+    catalog.setItems(response.items);
     console.log('товары с сервера', catalog.getItems());
     console.log(`загружено ${catalog.getItems().length} товаров`)
   })
